@@ -1,0 +1,23 @@
+{
+  "name": "node-farm",
+  "version": "1.0.0",
+  "description": "learning nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SUFFOSOHRAOUL/NODE-JOURNEY.git"
+  },
+  "author": "SUFFO SOH RAOUL",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SUFFOSOHRAOUL/NODE-JOURNEY/issues"
+  },
+  "homepage": "https://github.com/SUFFOSOHRAOUL/NODE-JOURNEY#readme",
+  "dependencies": {
+    "nodemon": "^2.0.15",
+    "slugify": "^1.6.5"
+  }
+}
