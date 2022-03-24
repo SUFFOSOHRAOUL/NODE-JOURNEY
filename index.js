@@ -1,6 +1,5 @@
 const fs = require('fs')
 const http= require('http')
-const { parse } = require('path')
 const url= require('url')
 
 
@@ -28,17 +27,55 @@ fs.writeFileSync('/home/suffo/Downloads/NEW/starter/txt/output.txt' , textOut)
 //     })
     
 // })
+const replacetemplate = (temp,product) => {
+    let output = temp.replace(/{%PRODUCTNAME%}/g,product.productName)
+        output = output.replace(/{%IMAGE%}/g,product.image)
+         output = output.replace(/{%PRICE%}/g,product.price)
+         output = output.replace(/{%FROM%}/g,product.from)
+        output = output.replace(/{%NUTRIENTS%}/g,product.nutrients)
+        output = output.replace(/{%QUANTITY%}/g,product.quantity)
+        output = output.replace(/{%DESCRIPTION%}/g,product.description)
+        output = output.replace(/{%ID%}/g,product.id)
 
 
+      if(!product.organic)  output = output.replace(/{%NOT_ORGANIC%}/g,'not-organic')      
+     return output
+    }
+
+
+
+
+
+
+const tempOverview = fs.readFileSync('/home/suffo/Downloads/NEW/starter/templates/overview.html','utf-8')
+const tempproduct= fs.readFileSync('/home/suffo/Downloads/NEW/starter/templates/templateproduct.html','utf-8')
+const tempcard= fs.readFileSync('/home/suffo/Downloads/NEW/starter/templates/productcard.html','utf-8')
 const data = fs.readFileSync('/home/suffo/Downloads/NEW/starter/dev-data/data.json','utf-8')
     const dataobj = JSON.parse(data)
 
 const server = http.createServer((req,res)=>{
-    const pathname=req.url
+
+const {query, pathname} = url.parse(req.url, true)
+
+
+    
     if(pathname ==='/' || pathname ==='/overview'){
-        res.end('this is the overview')
+        
+        res.writeHead(200,{'content-type': 'text/html'})
+
+        const cardhtml = dataobj.map(el => replacetemplate(tempcard,el)).join(' ')
+        const output= tempOverview.replace('{%PRODUCT_CARD%}',cardhtml)
+     
+
+        res.end(output)
+
+
+        
     }else if(pathname === '/product'){
-        res.end ('this is the product')
+        res.writeHead(200,{'content-type': 'text/html'})
+        const product = dataobj[query.id]
+        const output=replacetemplate(tempproduct,product)
+        res.end (output)
     
     }else if(pathname === '/api')
     {
