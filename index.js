@@ -1,6 +1,7 @@
 const fs = require('fs')
 const http= require('http')
 const url= require('url')
+const slugify = require('slugify')
 const replacetemplate = require('/home/suffo/Downloads/NEW/starter/module/replacetemplate')
 
 
@@ -39,6 +40,7 @@ const tempcard= fs.readFileSync('/home/suffo/Downloads/NEW/starter/templates/pro
 const data = fs.readFileSync('/home/suffo/Downloads/NEW/starter/dev-data/data.json','utf-8')
     const dataobj = JSON.parse(data)
 
+    
 const server = http.createServer((req,res)=>{
 
 const {query, pathname} = url.parse(req.url, true)
